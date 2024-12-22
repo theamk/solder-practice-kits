@@ -782,7 +782,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "fl-parts:CR2032-THT"
+		(property "Footprint" "fl-parts:CR2032-THT-retainer"
 			(at 73.66 72.136 90)
 			(effects
 				(font
