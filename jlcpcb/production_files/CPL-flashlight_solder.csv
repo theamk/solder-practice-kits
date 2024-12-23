@@ -1,0 +1,7 @@
+Designator,Val,Package,Mid X,Mid Y,Rotation,Layer
+BT1,Battery_Cell,CR2032-THT-retainer,123.35,-95.25,0.0,top
+D1,LED,LED_SideEmitter_Rectangular_W4.5mm_H1.6mm,156.21,-90.17,90.0,top
+D2,LED,LED_SideEmitter_Rectangular_W4.5mm_H1.6mm,156.21,-100.33,-90.0,top
+R1,220,R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,147.32,-87.63,0.0,top
+R2,220,R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,147.32,-102.87,0.0,top
+SW1,SW_Push,SW_PUSH_6mm,144.49,-95.25,-90.0,top

@@ -76,7 +76,7 @@
 		)
 		(fill solid)
 		(layer "B.Cu")
-		(uuid "4791bf44-78de-4e29-a38c-9638bbf970f7")
+		(uuid "07ca6c04-3085-47d2-834b-171c47370d42")
 	)
 	(fp_circle
 		(center 10.6 0)
@@ -171,6 +171,28 @@
 		)
 		(layer "F.SilkS")
 		(uuid "4cb9a5c1-c215-49c6-88e2-e71db43e2f83")
+	)
+	(fp_circle
+		(center -10.6 0)
+		(end -8.6 0)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(fill solid)
+		(layer "B.Mask")
+		(uuid "4791bf44-78de-4e29-a38c-9638bbf970f7")
+	)
+	(fp_circle
+		(center 10.6 0)
+		(end 12.6 0)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(fill solid)
+		(layer "B.Mask")
+		(uuid "1522c837-f65b-4e3a-888d-b8b600fcf87d")
 	)
 	(fp_line
 		(start -14 -5)

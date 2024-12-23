@@ -1,0 +1,7 @@
+Comment,Designator,Footprint,LCSC,Quantity
+Battery_Cell,BT1,CR2032-THT-retainer,,1
+SW_Push,SW1,SW_PUSH_6mm,,1
+220,R1,R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,,1
+LED,D2,LED_SideEmitter_Rectangular_W4.5mm_H1.6mm,,1
+LED,D1,LED_SideEmitter_Rectangular_W4.5mm_H1.6mm,,1
+220,R2,R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,,1
