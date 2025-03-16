@@ -1,0 +1,155 @@
+(footprint "BatteryHolder_Generic_3xAAA"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(descr "3xAAA generic battery holder from aliexpress")
+	(property "Reference" "REF**"
+		(at 2.61 -1.095 0)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "e3761666-3fef-4668-8f6b-9928efb4c58e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "BatteryHolder_Generic_3xAAA"
+		(at 26.425 38.595 0)
+		(layer "F.Fab")
+		(uuid "98836584-86c3-4193-80b1-1d6b40d90f69")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 2.7 7.1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "33d67ba6-8342-46d3-8645-500c35921778")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 2.7 7.1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "cf3ac1eb-1c52-4dc1-a12f-d4f889ef2655")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 2.7 7.1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d69c0369-ba76-4a7f-8c02-1c9ad91c7929")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(fp_rect
+		(start 0 0)
+		(end 52 36)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill none)
+		(layer "F.SilkS")
+		(uuid "ce9c78bc-9996-4935-9086-058878735dad")
+	)
+	(fp_text user "-"
+		(at -1.5 18.1 0)
+		(layer "F.SilkS")
+		(uuid "3017233a-10bf-490e-909a-e33c69e7ac7a")
+		(effects
+			(font
+				(size 3 3)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_text user "+"
+		(at -1.5 6.5 0)
+		(layer "F.SilkS")
+		(uuid "ce883969-3568-4eef-aaf7-e0117251a97b")
+		(effects
+			(font
+				(size 3 3)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_text user "${REFERENCE}"
+		(at 26.425 18.85 0)
+		(layer "F.Fab")
+		(uuid "edb5c274-56ed-4a9c-8f0b-20c266e6f623")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "" np_thru_hole circle
+		(at 26 6.5)
+		(size 3.45 3.45)
+		(drill 3.45)
+		(layers "F&B.Cu" "*.Mask")
+		(uuid "d5e018d3-a996-4dc6-8c10-d3c15abfd650")
+	)
+	(pad "" np_thru_hole circle
+		(at 26 29.5)
+		(size 3.45 3.45)
+		(drill 3.45)
+		(layers "F&B.Cu" "*.Mask")
+		(uuid "08da747b-b615-4946-b391-8285d56ed7e1")
+	)
+	(pad "1" thru_hole rect
+		(at 2.5 6.5)
+		(size 3 3)
+		(drill 1.1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "da6abf01-20b6-473a-8cd8-980baad8c680")
+	)
+	(pad "2" thru_hole circle
+		(at 2.5 18.2)
+		(size 3 3)
+		(drill 1.1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "a0983245-1e12-43ba-bf43-be00d1bbb7ea")
+	)
+	(model "${KICAD8_3DMODEL_DIR}/Battery.3dshapes/BatteryHolder_Keystone_2479_3xAAA.wrl"
+		(offset
+			(xyz 2.7 -7.1 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

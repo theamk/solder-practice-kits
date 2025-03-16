@@ -1460,12 +1460,6 @@
 		)
 	)
 	(junction
-		(at 144.78 80.01)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "04acad51-a575-4b6a-a94f-ea4b5d5898f3")
-	)
-	(junction
 		(at 138.43 66.04)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1482,6 +1476,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "21c52ffa-11e9-41ac-949d-62def1b82dac")
+	)
+	(junction
+		(at 149.86 85.09)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3d281d59-0802-4b12-bb2e-9675a549ed7c")
 	)
 	(junction
 		(at 124.46 58.42)
@@ -1809,16 +1809,6 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 80.01) (xy 144.78 85.09)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a36b1335-546b-49c9-a653-925b492d3a2e")
-	)
-	(wire
-		(pts
 			(xy 123.19 74.93) (xy 123.19 80.01)
 		)
 		(stroke
@@ -1836,6 +1826,16 @@
 			(type default)
 		)
 		(uuid "a9709178-2402-4a39-9f1f-467dd0a1d7f1")
+	)
+	(wire
+		(pts
+			(xy 149.86 85.09) (xy 149.86 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b6701b15-4786-4c43-9b98-5ba93409060c")
 	)
 	(wire
 		(pts
@@ -1869,7 +1869,7 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 85.09) (xy 144.78 85.09)
+			(xy 118.11 85.09) (xy 149.86 85.09)
 		)
 		(stroke
 			(width 0)
@@ -1909,7 +1909,7 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 69.85) (xy 149.86 88.9)
+			(xy 149.86 69.85) (xy 149.86 85.09)
 		)
 		(stroke
 			(width 0)
@@ -1976,7 +1976,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Battery_Cell"
+		(property "Value" "3xAAA"
 			(at 91.44 73.0884 0)
 			(effects
 				(font
@@ -1985,7 +1985,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Battery:BatteryHolder_MPD_BC2AAPC_2xAA"
+		(property "Footprint" "fl-parts:BatteryHolder_Generic_3xAAA"
 			(at 87.63 72.136 90)
 			(effects
 				(font
@@ -2625,7 +2625,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "fl-parts:PC-mnt-speaker-23-30-mm"
+		(property "Footprint" "fl-parts:PC-mnt-speaker-23-mm"
 			(at 196.85 74.93 0)
 			(effects
 				(font
