@@ -1,0 +1,10 @@
+Designator,Val,Package,Mid X,Mid Y,Rotation,Layer
+BT1,Battery_Cell,BatteryHolder_MPD_BC2AAPC_2xAA,176.645,-114.745,0.0,top
+C1,0.1u,C_Disc_D3.4mm_W2.1mm_P2.50mm,119.38,-74.295,0.0,top
+C2,0.1u,C_Disc_D3.4mm_W2.1mm_P2.50mm,119.38,-69.215,0.0,top
+LS1,Speaker 23mm/30mm,PC-mnt-speaker-23-30-mm,118.03,-101.6,180.0,top
+R1,1K,R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal,105.41,-66.04,180.0,top
+R2,1K,R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal,132.08,-66.04,0.0,top
+R3,500K,Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,103.925,-75.92,0.0,top
+SW1,SW_Push,SW_PUSH-12mm,259.08,-85.725,-150.0,top
+U1,NE555P,DIP-8_W7.62mm,132.08,-76.2,0.0,top
