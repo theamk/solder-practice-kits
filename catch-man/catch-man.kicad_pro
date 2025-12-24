@@ -51,8 +51,47 @@
           "min_clearance": 0.5
         }
       },
-      "diff_pair_dimensions": [],
-      "drc_exclusions": [],
+      "diff_pair_dimensions": [
+        {
+          "gap": 0.0,
+          "via_gap": 0.0,
+          "width": 0.0
+        }
+      ],
+      "drc_exclusions": [
+        [
+          "clearance|116517073|135266552|02587b67-b33c-4c3e-a799-000e7b41e3f3|f08cef5a-dd35-4bf5-a5cf-c6f8342229fe",
+          ""
+        ],
+        [
+          "clearance|116517073|156466552|0aff8655-5787-4344-825c-726ca028c5d0|7948a802-f0ac-44f9-9670-11b44fb02030",
+          ""
+        ],
+        [
+          "silk_over_copper|109652415|148889281|c9e694c6-f321-4db2-aaf4-8bce274a56dc|00000000-0000-0000-0000-000000000000",
+          ""
+        ],
+        [
+          "silk_over_copper|111767073|135186552|27ed07c9-af85-421e-981c-47b5a157fc94|00000000-0000-0000-0000-000000000000",
+          ""
+        ],
+        [
+          "silk_over_copper|111767073|156546552|2ac69e44-3077-4bfd-9565-f0f9022fe2c0|00000000-0000-0000-0000-000000000000",
+          ""
+        ],
+        [
+          "solder_mask_bridge|116517073|135266552|f08cef5a-dd35-4bf5-a5cf-c6f8342229fe|02587b67-b33c-4c3e-a799-000e7b41e3f3",
+          ""
+        ],
+        [
+          "solder_mask_bridge|116517073|156466552|7948a802-f0ac-44f9-9670-11b44fb02030|0aff8655-5787-4344-825c-726ca028c5d0",
+          ""
+        ],
+        [
+          "unconnected_items|116517073|135266552|F.Cu|4|02587b67-b33c-4c3e-a799-000e7b41e3f3|0aff8655-5787-4344-825c-726ca028c5d0",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -180,7 +219,12 @@
           "td_width_to_size_filter_ratio": 0.9
         }
       ],
-      "track_widths": [],
+      "track_widths": [
+        0.0,
+        0.254,
+        0.508,
+        1.27
+      ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
           "corner_radius_percentage": 80,
@@ -207,7 +251,12 @@
           "spacing": 0.6
         }
       },
-      "via_dimensions": [],
+      "via_dimensions": [
+        {
+          "diameter": 0.0,
+          "drill": 0.0
+        }
+      ],
       "zones_allow_external_fillets": false
     },
     "ipc2581": {
