@@ -23,3 +23,4 @@ LED,D1,LED_D5.0mm,,1
 Battery_Cell,BT1,CR2032-THT-retainer,,1
 POWER,SW2,SW_Slide-03_Wuerth-WS-SLTV_10x2.5x6.4_P2.54mm,,1
 0.1u,C1,C_Disc_D3.0mm_W1.6mm_P2.50mm,,1
+15mm / 10mm buzzer,LS2,Buzzer_D14mm_H7mm_P10mm,,1
