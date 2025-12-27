@@ -4811,7 +4811,7 @@
 				)
 			)
 		)
-		(property "Value" "POWER (TODO CHECK POL)"
+		(property "Value" "POWER"
 			(at 36.195 82.55 0)
 			(effects
 				(font
