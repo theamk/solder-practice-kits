@@ -36,6 +36,12 @@ GND.
 Those can be programmed before insertion, or you can use test clip for in-circuit programming
 (the LEDs are connected so this is possible)
 
+The easiest way to program is to use `pio run -t upload` in the firmware dir.
+And alternative is to install stcgal and execute:
+```
+stcgal.py -P stc8g -p /dev/ttyUSB0 -t 11059 -a firmware/firmware.hex
+```
+
 # Testing/orders
 
 ### Revision 1
