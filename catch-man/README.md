@@ -54,10 +54,13 @@ Ordered from JLCPCB 2025-12-24
    - (had some coupons which paid for it, would be about $22.50 otherwise)
 
 Notes for next rev:
-- Mark resistor values (since we have 2)
+- Mark resistor values (since we have 2 kinds)
 - Put "catch-man" in large font on front side
+- Set "thing" outlines to be much thicker
 - Re-route front traces to not intersect house silkscreen.. in general, move more stuff to the back, via's are neat
 - Tested green LED + 68 ohm resistors.. looks good enough (at least on 3.3V supply)
 - For next time: the timer output is not hooked up to speaker
-- For next time: programming pin is hooked to speaker. When bypassed, this makes programming impossible
+- For next time: programming pin is hooked to speaker. When speaker is bypassed, this makes programming impossible
 - Speaker transistor may be redundant? Outputs claim 20mA, and you are not supposed to draw that much from CR2032...
+  Directly-driven piezo speaker sounds just fine from 3.3V
+- Can we move eyes be different? rectangular LED, or bigger, or smaller...

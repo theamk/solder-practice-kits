@@ -32,7 +32,7 @@ void set_led(uint8_t val);
 #define nBUTTON()   P30
 #define BEEP_PIN    P31
 
-#define BEEP_IDLE   1   // 0 if transistor installed, 1 if bypassed
+#define BEEP_IDLE   0   // 0 if transistor installed, 1 if bypassed
 
 // Timer0 runs at constant speed
 #define TIMER0_HZ   1000
@@ -47,5 +47,9 @@ void set_beeper(uint16_t div);
 // 8-bit random number. Starts predicatably, but every button press is mixed in.
 uint8_t random8();
 extern uint16_t rng_state;
+
+
+// sdcc requires all interrupts to be declared (but not neccesary defined) in main()
+extern INTERRUPT(Timer1_Routine, EXTI_VectTimer1);
 
 #endif

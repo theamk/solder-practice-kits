@@ -69,6 +69,11 @@ void hw_init(void) {
 }
 
 
+static uint8_t beep_val = 0;
+INTERRUPT(Timer1_Routine, EXTI_VectTimer1) {
+  BEEP_PIN = (++beep_val) & 1;
+}
+
 // Set beeper with specific timer divisor
 // (this way there is no need to divide at runtime)
 void set_beeper(uint16_t div) {
