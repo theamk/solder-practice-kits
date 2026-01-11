@@ -1,87 +1,152 @@
 #include <fw_hal.h>
-#include <stdio.h>
 
-// pinout:
-//   P32, P33, P54, P55 - LED charlielex
-//   P30 - button (to GND)
-//   P31 - buzzer (active high)
+#include "hw.h"
 
-// Set LED via charlieplexing
-// Takes number 0..15. treats as 2x 2bit vals: aabb, aa=+pin, bb=-pin
-// So numbers 0 (0b0000), 5(0b0101), 10(0b1010), 15(0b1111) all mean "all off"
-// (note those nmbrs are unrelated do D1..D12 on schematics)
-void set_led(uint8_t val) {
-  // Each port is controlled by 3 registers: Pn, PnM0, PnM1. The modes are:
-  //  (PnM1=0, PnM0=0) -> QBD/Quasi-bidirectional - we don't use it
-  //  (PnM1=0, PnM0=1) -> push/pull, with Pn=1 the only way to output strong pull-up
-  //  (PnM1=1, PnM0=0) -> high-Z, used for unconnected pins
-  //  (PnM1=1, PnM0=1) -> open drain
-  
-  // Turn off everything, avoiding pulses
-  // (except P3.1, buzzer, which must be always in push-pull)
-#define P3_PP_MASK  (1<<1)
-  
-  // First, set M1=1. Hi-Z pins keep being Hi-Z, push-pull becomes "open drain" (which disables strop pull-up)
-  P3M1 = 0xFF ^ P3_PP_MASK; P5M1 = 0xFF;
-  // Then, clear M0=0. Now everything is Hi-Z, we can manipulate pins in any way with no danger of glitches
-  P3M0 = P3_PP_MASK; P5M0 = 0;
-  // Finally, reset all to 1, for consistency. Use bitset on P3 to avoid messing with timer.
-  P32 = 1;  P33 = 1;  P5 = 0xFF;
+// game state
+uint8_t thing_sel = 1; // thing selector, 1 = left, 2=right
+uint8_t house = 2;  // how many LEDs in house
+uint8_t food = FIELD_M; // food position, one of MOUTH_ or FIELD_ costants
+volatile uint8_t need_move = 0;
+volatile uint8_t need_thing_switch = 0;
+volatile uint8_t button_pressed = 0;
 
-  // Special case common value
-  if (val == 0) { return; }
-  
-  // Lower bits define pin to set to negative. We use open drain mode for less code
-  switch (val & 3) {
-  case 0: P3M0 |= (1<<2); P32 = 0; break;
-  case 1: P3M0 |= (1<<3); P33 = 0; break;
-  case 2: P5M0 |= (1<<4); P54 = 0; break;
-  case 3: P5M0 |= (1<<5); P55 = 0; break;    
+// interrupt handler state
+uint8_t led_phase = 0;
+uint16_t count_1s = TIMER0_HZ;
+uint16_t count_thing_switch = 1;
+uint16_t count_move = 1;
+volatile uint8_t button_debounce = 0;
+
+INTERRUPT(Timer0_Routine, EXTI_VectTimer0) {
+  // Set LED (we can show only 1 at a time, so use fixed schedule)
+  uint8_t led = 0;
+  switch (++led_phase) {
+  case 1: if (thing_sel) { led = (thing_sel == 2) ? EYE_R : EYE_L; }; break; // eye
+  case 2: if (house >= 1) { led = HOUSE_1; }; break;
+  case 3: if (house >= 2) { led = HOUSE_2; }; break;
+  case 4: if (house >= 3) { led = HOUSE_3; }; break;
+  default: // food
+    led_phase = 0;
+    led = food;
   }
-  // Nextg 2 bits define pin to set to positive. We use push/pull, and set PnM0 first so we don't glitchinto QBD mode
-  switch ((val >> 2) & 3) {
-  case 0: P3M0 |= (1<<2); P3M1 &=~ (1<<2); break;
-  case 1: P3M0 |= (1<<3); P3M1 &=~ (1<<3); break;
-  case 2: P5M0 |= (1<<4); P5M1 &=~ (1<<4); break;
-  case 3: P5M0 |= (1<<5); P5M1 &=~ (1<<5); break;
+  set_led(led);
+
+  //
+  if (!--count_1s) {
+    count_1s = TIMER0_HZ;
+    //house = (house == 3) ? 0 : (house + 1);
   }
+
+  // Run timers for main game loop
+  if (!--count_thing_switch) {
+    count_thing_switch = TIMER0_HZ * 2;
+    need_thing_switch = 1;
+  }
+
+  if (!--count_move) {
+    count_move = TIMER0_HZ / 3;
+    need_move = 1;
+  }
+
+  // deboumce timer only counts if button is released
+  if (button_debounce && nBUTTON()) { button_debounce--; }
 }
 
-#define nBUTTON()   P30
-
-void hw_init(void) {
-  P3 = 0xFF ^ (1<<1); // P3.1 (buzzer) off, rest high
-  P3PU = (1<<0); // P3.0 (button) has 4.7K pullup  
-  set_led(0);  // set rest of pins
+// Those should be in hw.c, but sdcc wants all handlers in main.c
+static uint8_t beep_val = 0;
+INTERRUPT(Timer1_Routine, EXTI_VectTimer1) {
+  BEEP_PIN = (++beep_val) & 1;
+}
+INTERRUPT(Int4_Routine, EXTI_VectInt4) {
+  // register button press
+  if (!button_debounce) {  button_pressed = 1; };
+  button_debounce = TIMER0_HZ / 100;
+  // mix our timer value into random state
+  rng_state ^= TL0;
 }
 
-// Test sequence
-const uint8_t field[] = {
-  1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14
+// A list of possible moves.
+// 0-delimited list of bytes. First byte is original position, rest are possible moves
+__CODE const uint8_t food_moves[] = {
+  FIELD_M,  FIELD_TR, FIELD_TL, FIELD_BR, FIELD_BL, 0,
+
+  MOUTH_L, FIELD_TL, FIELD_BL, 0,
+  MOUTH_R, FIELD_TR, FIELD_BR, 0,
+
+  FIELD_TL, MOUTH_L, FIELD_M, FIELD_TR, 0,
+  FIELD_TR, MOUTH_R, FIELD_M, FIELD_TL, 0,
+
+  FIELD_BL, MOUTH_L, FIELD_M, FIELD_BR, 0,
+  FIELD_BR, MOUTH_R, FIELD_M, FIELD_BL, 0
 };
+
 
 void main(void) {
   hw_init();
-  
+
   while (1) {
+    // pre-game
+    house = 2;
+    thing_sel = 0;
+    button_pressed = 0;
 
-    // run LED through the field
-    for (uint8_t i=0; i<sizeof(field); i++) {
-      set_led(field[i]);
-      // temp - debug programmer
-      //P31 = (i & 8);
+    // game welcome loop
 
-      // While the button is held, don't move, beep
-      while (nBUTTON() == 0) {
-        P31 = 1;
-        SYS_Delay(1);
-        P31 = 0;
-        SYS_Delay(1);
+    while (!button_pressed) {
+      if (need_move) {
+        need_move = 0;
+        food = food ? 0 : FIELD_M;
       }
-      SYS_Delay(200);
     }
+    button_pressed = 0;
 
-    // A longer delay and loop again
-    SYS_Delay(1000);
+    // Game start!
+    house = 0;
+    food = FIELD_M;
+    thing_sel = 1 + random8() % 2;
+
+    while (1) {
+      // Game: switch thing periodically
+      if (need_thing_switch) {
+        need_thing_switch = 0;
+        if (random8() < 80) {
+          thing_sel = (thing_sel == 2) ? 1 : 2;
+        }
+      }
+
+      // Game: move food
+      if (need_move) {
+        need_move = 0;
+
+        for (uint8_t i=0; i<sizeof(food_moves); i++) {
+          // Find the right sequence
+          if (food_moves[i] != food) {
+            while (food_moves[i] != 0) { i++; }
+            continue;
+          }
+          // Count number of possible moves
+          uint8_t cnt = 0;
+          for (uint8_t* p = &food_moves[i+1]; *p; p++, cnt++) {};
+          // choose a move
+          uint8_t idx = random8() % cnt;
+          food = food_moves[i + 1 + idx];
+          break;
+        }
+      }
+
+      // Game: handle button
+      if (button_pressed) {
+        button_pressed = 0;
+
+        if (((food == MOUTH_L) && (thing_sel == 1)) ||
+            ((food == MOUTH_R) && (thing_sel == 2))) {
+          // Got it!
+          if (house < 3) { house++; }
+        } else {
+          // missed it!
+          if (house > 0) { house--; }
+        }
+      }
+    }
   }
 }

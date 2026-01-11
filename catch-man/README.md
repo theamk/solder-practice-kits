@@ -56,3 +56,8 @@ Ordered from JLCPCB 2025-12-24
 Notes for next rev:
 - Mark resistor values (since we have 2)
 - Put "catch-man" in large font on front side
+- Re-route front traces to not intersect house silkscreen.. in general, move more stuff to the back, via's are neat
+- Tested green LED + 68 ohm resistors.. looks good enough (at least on 3.3V supply)
+- For next time: the timer output is not hooked up to speaker
+- For next time: programming pin is hooked to speaker. When bypassed, this makes programming impossible
+- Speaker transistor may be redundant? Outputs claim 20mA, and you are not supposed to draw that much from CR2032...
