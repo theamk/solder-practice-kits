@@ -1,4 +1,9 @@
-# Learn-to-practice kits
+# Learn-to-solder practice boards
+
+- Through-hole parts
+- Low density
+- Few components overall
+- Few types of components
 
 
 ### License

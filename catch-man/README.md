@@ -1,4 +1,4 @@
-# "catch-man" soldering game
+# "catch-man" game
 
 # Part list
 
@@ -13,7 +13,7 @@ STC8G1K17A-36I-DIP8 would be even better (more FLASH for program), but it was mu
 - 12x 3mm/5mm LED (red/yellow/green recommended, no blue or white)
 - 1x "12x12mm" tactile button
 - 1x slide switch (SS12D00 or equivalent, 3 pins @ 2.5mm/2.54mm spacing)
-- Piezo buzzer (passive, pin spacing 7.6mm)
+- Piezo buzzer (passive, "1407", pin spacing 7.5mm or 7.6mm)
 - CR2032, "shell" holder (BS-2032A but not all listing say this, look for 20mm inter-pin distance)
 
 ### Misc
@@ -49,14 +49,15 @@ Ordered from JLCPCB 2025-12-24
    - (had some coupons which paid for it, would be about $22.50 otherwise)
 
 Notes for next rev:
-- Mark resistor values (since we have 2 kinds)
 - Put "catch-man" in large font on front side
 - Set "thing" outlines to be much thicker
-- Re-route front traces to not intersect house silkscreen.. in general, move more stuff to the back, via's are neat
-- Tested green LED + 68 ohm resistors.. looks good enough (at least on 3.3V supply)
+- Re-route front traces to not intersect silkscreen lines.. in general, move more stuff to the back, via's are neat
+- Tested green LED + 68 ohm resistors.. looks good enough (on battery and 3.3v supply)
 - For next time: the timer output is not hooked up to speaker
-- For next time: programming pin is hooked to speaker. When speaker is bypassed, this makes programming impossible
-- Speaker transistor may be redundant? Outputs claim 20mA, and you are not supposed to draw that much from CR2032...
-- Directly-driven piezo speaker sounds just fine from 3.3V. However, we cannot program
-    (Model unknown, measured: D=14mm H=7mm Spacing=7.6mm C=13.6nF)
-- Can we move eyes be different? rectangular LED, or bigger, or smaller...
+- Programming pin is hooked to speaker. When speaker is bypassed, this makes in-circuit programming impossible
+  Either move to a different pin, or add a "mute" switch
+- Speaker transistor is redundant, tested with directly-driven piezo speaker, sounds just fine
+    - Piezo speaker model unknown, measured: D=14mm H=7mm Spacing=7.6mm C=13.6nF
+    - Dynamic speaker (say 16 ohm) is 190mA, way too much for CR2032 anyway
+- Let's make eyes be different - rectangular LED, or bigger, or smaller...
+- Add mounting holes, in case we want backplate
