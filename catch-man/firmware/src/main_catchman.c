@@ -7,7 +7,7 @@ uint8_t thing_sel = 1; // thing selector, 1 = left, 2=right
 uint8_t house = 2;  // how many LEDs in house
 uint8_t food = FIELD_M; // food position, one of MOUTH_ or FIELD_ costants
 uint8_t pause_move = 0;
-uint8_t difficulty = 1;
+uint8_t level = 0;
 volatile uint8_t need_move = 0;
 volatile uint8_t need_thing_switch = 0;
 volatile uint8_t button_pressed = 0;
@@ -51,10 +51,11 @@ INTERRUPT(Timer0_Routine, EXTI_VectTimer0) {
     }
 
     if (!--count_move) {
-      switch (difficulty) {
-      default: count_move = TIMER0_HZ / 3; break;
-      case 2: count_move = TIMER0_HZ / 5; break;
-      case 3: count_move = TIMER0_HZ / 10; break;
+      switch (level) {
+      default: // level 0, treat same as 1
+      case 1: count_move = TIMER0_HZ / 3; break;
+      case 2: count_move = TIMER0_HZ / 4; break;
+      case 3: count_move = TIMER0_HZ / 7; break;
       }
 
       need_move = 1;
@@ -82,7 +83,7 @@ void beep_with_div(uint8_t duration_cs, uint16_t div) {
 #define BEEP(freq, duration_ms) beep_with_div( (duration_ms)/10, BEEPER_HZ_TO_DIV((freq)))
 #define SLEEP(duration_ms) beep_with_div( (duration_ms)/10, 0 )
 
-// A list of possible moves.
+// A list of possible moves *for random)
 // 0-delimited list of bytes. First byte is original position, rest are possible moves
 __CODE const uint8_t food_moves[] = {
   FIELD_M,  FIELD_TR, FIELD_TL, FIELD_BR, FIELD_BL, 0,
@@ -97,6 +98,43 @@ __CODE const uint8_t food_moves[] = {
   FIELD_BR, MOUTH_R, FIELD_M, FIELD_BL, 0
 };
 
+__CODE const uint8_t food_sequence[] = {
+  FIELD_M, FIELD_TR, MOUTH_R, FIELD_BR,
+  FIELD_M | 0x80, // displays same as FIELD_M
+  FIELD_TL, MOUTH_L, FIELD_BL,
+};
+
+
+void move_food() {
+  if (level == 0) {
+    // simpler version: move in predictable order
+    for (uint8_t i=0; i<(sizeof(food_sequence) - 1); i++) {
+      if (food_sequence[i] == food) {
+        food = food_sequence[i + 1];
+        return;
+      };
+    }
+    food = food_sequence[0];
+    return;
+  }
+
+  // Move in the random order
+  for (uint8_t i=0; i<sizeof(food_moves); i++) {
+    // Find the right sequence
+    if (food_moves[i] != food) {
+      while (food_moves[i] != 0) { i++; }
+      continue;
+    }
+    // Count number of possible moves
+    uint8_t cnt = 0;
+    for (const uint8_t* p = &food_moves[i+1]; *p; p++, cnt++) {};
+    // choose a move
+    uint8_t idx = random8() % cnt;
+    food = food_moves[i + 1 + idx];
+    break;
+  }
+}
+
 
 void main(void) {
   hw_init();
@@ -104,9 +142,9 @@ void main(void) {
   while (1) {
     // pre-game
 
-    if (difficulty == 1) {
+    if (level == 0) {
       // game welcome loop, 1st run
-      house = difficulty;
+      house = 0;
       thing_sel = 0;
       button_pressed = 0;
 
@@ -119,19 +157,24 @@ void main(void) {
           } else {
             food = EYE_R; thing_sel = 1;
           };
+          house = (house > 4) ? 0 : (house + 1);
         }
       }
     } else {
       // next lever start loop, after level-up
       uint8_t house_skip = 0;
       while (!button_pressed) {
+        // Update rate depends on level
+        if (!need_move) { continue; }
+        need_move = 0;
+
         if (thing_sel == 1) {
           food = MOUTH_L; thing_sel = 2;
         } else {
           food = MOUTH_R; thing_sel = 1;
         };
-        // House goes up to (new) difficutly, stays
-        if (house < difficulty) {
+        // House goes up to (new) level, stays there, then resets
+        if (house < level) {
           house++;
         } else if (house_skip < 2) {
           house_skip++;
@@ -139,7 +182,6 @@ void main(void) {
           house = 0;
           house_skip = 0;
         }
-        SLEEP(100);
       }
     }
 
@@ -148,7 +190,7 @@ void main(void) {
     // Game start!
     house = 0;
     food = FIELD_M;
-    pause_move = 5;
+    pause_move = 3;
     thing_sel = 1 + random8() % 2;
 
     // starting tune
@@ -169,21 +211,10 @@ void main(void) {
       // Game: move food
       if (need_move) {
         need_move = 0;
-
-        for (uint8_t i=0; i<sizeof(food_moves); i++) {
-          if (pause_move) { pause_move--; break; }
-          // Find the right sequence
-          if (food_moves[i] != food) {
-            while (food_moves[i] != 0) { i++; }
-            continue;
-          }
-          // Count number of possible moves
-          uint8_t cnt = 0;
-          for (uint8_t* p = &food_moves[i+1]; *p; p++, cnt++) {};
-          // choose a move
-          uint8_t idx = random8() % cnt;
-          food = food_moves[i + 1 + idx];
-          break;
+        if (pause_move) {
+          pause_move--;
+        } else {
+          move_food();
         }
       }
 
@@ -220,7 +251,7 @@ void main(void) {
     BEEP(1400, 200);  SLEEP(100);
     BEEP(1600, 200);
 
-    if (difficulty < 3) { difficulty++; };
+    if (level < 3) { level++; };
     button_pressed = 0;
     // loop again and restart
   }

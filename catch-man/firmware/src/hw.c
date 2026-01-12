@@ -44,7 +44,7 @@ void hw_init(void) {
   // On devices with <64KB if RAM, this has no downside, but SDK often turns it off for some reason
 
   // GPIO
-  P3 = 0xFF & (~(1<<1)) | (BEEP_IDLE << 1); // P3.1 (buzzer) idle, rest high
+  P3 = (0xFF ^ (1<<1)) | (BEEP_IDLE << 1); // P3.1 (buzzer) idle, rest high
   P3PU = (1<<0); // P3.0 (button) has 4.7K pullup
   set_led(0);  // set rest of pins
 

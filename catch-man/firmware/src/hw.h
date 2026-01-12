@@ -26,13 +26,14 @@
 // Takes number 0..15. treats as 2x 2bit vals: aabb, aa=+pin, bb=-pin
 // So numbers 0 (0b0000), 5(0b0101), 10(0b1010), 15(0b1111) all mean "all off"
 // (note those nmbrs are unrelated do D1..D12 on schematics)
+// Note: high bit (0x80) of val is ignored
 void set_led(uint8_t val);
 
 
 #define nBUTTON()   P30
 #define BEEP_PIN    P31
 
-#define BEEP_IDLE   0   // 0 if transistor installed, 1 if bypassed
+#define BEEP_IDLE   1   // 1 if transistor bypassed/missing, 0 if installed
 
 // Timer0 runs at constant speed
 #define TIMER0_HZ   1000
