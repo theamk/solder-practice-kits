@@ -30,7 +30,7 @@ void set_led(uint8_t val) {
   case 2: P5M0 |= (1<<4); P54 = 0; break;
   case 3: P5M0 |= (1<<5); P55 = 0; break;
   }
-  // Nextg 2 bits define pin to set to positive. We use push/pull, and set PnM0 first so we don't glitchinto QBD mode
+  // Next 2 bits define pin to set to positive. We use push/pull, and set PnM0 first so we don't glitchinto QBD mode
   switch ((val >> 2) & 3) {
   case 0: P3M0 |= (1<<2); P3M1 &=~ (1<<2); break;
   case 1: P3M0 |= (1<<3); P3M1 &=~ (1<<3); break;
@@ -40,6 +40,9 @@ void set_led(uint8_t val) {
 }
 
 void hw_init(void) {
+  SFRX_ON(); // Set P_SW2.EXFR, enabling access to special function register (XFR)
+  // On devices with <64KB if RAM, this has no downside, but SDK often turns it off for some reason
+
   // GPIO
   P3 = 0xFF & (~(1<<1)) | (BEEP_IDLE << 1); // P3.1 (buzzer) idle, rest high
   P3PU = (1<<0); // P3.0 (button) has 4.7K pullup

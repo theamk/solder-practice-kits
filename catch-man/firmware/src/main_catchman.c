@@ -7,6 +7,7 @@ uint8_t thing_sel = 1; // thing selector, 1 = left, 2=right
 uint8_t house = 2;  // how many LEDs in house
 uint8_t food = FIELD_M; // food position, one of MOUTH_ or FIELD_ costants
 uint8_t pause_move = 0;
+uint8_t difficulty = 1;
 volatile uint8_t need_move = 0;
 volatile uint8_t need_thing_switch = 0;
 volatile uint8_t button_pressed = 0;
@@ -50,7 +51,12 @@ INTERRUPT(Timer0_Routine, EXTI_VectTimer0) {
     }
 
     if (!--count_move) {
-      count_move = TIMER0_HZ / 3;
+      switch (difficulty) {
+      default: count_move = TIMER0_HZ / 3; break;
+      case 2: count_move = TIMER0_HZ / 5; break;
+      case 3: count_move = TIMER0_HZ / 10; break;
+      }
+
       need_move = 1;
     }
   }
@@ -97,22 +103,46 @@ void main(void) {
 
   while (1) {
     // pre-game
-    house = 2;
-    thing_sel = 0;
-    button_pressed = 0;
 
-    // game welcome loop
-    while (!button_pressed) {
-      if (need_move) {
-        need_move = 0;
-        // blink both eyes
-        if (food) {
-          food = 0; thing_sel = 0;
+    if (difficulty == 1) {
+      // game welcome loop, 1st run
+      house = difficulty;
+      thing_sel = 0;
+      button_pressed = 0;
+
+      while (!button_pressed) {
+        if (need_move) {
+          need_move = 0;
+          // blink both eyes
+          if (food) {
+            food = 0; thing_sel = 0;
+          } else {
+            food = EYE_R; thing_sel = 1;
+          };
+        }
+      }
+    } else {
+      // next lever start loop, after level-up
+      uint8_t house_skip = 0;
+      while (!button_pressed) {
+        if (thing_sel == 1) {
+          food = MOUTH_L; thing_sel = 2;
         } else {
-          food = EYE_R; thing_sel = 1;
+          food = MOUTH_R; thing_sel = 1;
         };
+        // House goes up to (new) difficutly, stays
+        if (house < difficulty) {
+          house++;
+        } else if (house_skip < 2) {
+          house_skip++;
+        } else {
+          house = 0;
+          house_skip = 0;
+        }
+        SLEEP(100);
       }
     }
+
     button_pressed = 0;
 
     // Game start!
@@ -190,16 +220,7 @@ void main(void) {
     BEEP(1400, 200);  SLEEP(100);
     BEEP(1600, 200);
 
-    while (!button_pressed) {
-      if (thing_sel == 1) {
-        food = MOUTH_L; thing_sel = 2;
-      } else {
-        food = MOUTH_R; thing_sel = 1;
-      };
-      house = (house >= 5) ? 0 : (house + 1);
-      SLEEP(100);
-    }
-
+    if (difficulty < 3) { difficulty++; };
     button_pressed = 0;
     // loop again and restart
   }

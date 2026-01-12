@@ -13,18 +13,13 @@ STC8G1K17A-36I-DIP8 would be even better (more FLASH for program), but it was mu
 - 12x 3mm/5mm LED (red/yellow/green recommended, no blue or white)
 - 1x "12x12mm" tactile button
 - 1x slide switch (SS12D00 or equivalent, 3 pins @ 2.5mm/2.54mm spacing)
-- Buzzer: 2 options, need to test
-  - "9024" magnetic (4mm pin spacing),
-    [passive buzzer 16ohm 3v](https://www.aliexpress.us/item/3256804172612082.html), $2.16 for 10x in 2025-12
-  - unknown, possibly 1508 (15mm dia, 10mm pin spacing) - got sent by mistake
+- Piezo buzzer (passive, pin spacing 7.6mm)
 - CR2032, "shell" holder (BS-2032A but not all listing say this, look for 20mm inter-pin distance)
 
 ### Misc
 
-- 2N2222 (or any other NPN one). I put metal can (TO-18) footprint because I have huge bag of those.
 - 1x DIP-8 socket
-- 4x 1/8W resistors for LEDs... Perhaps 100 ohm? Need to test brightness, depends on color
-- 1x 1/8W resistor for transistor... anything from 500 to 15K will work, perhaps 1K or 4.7K?
+- 4x 1/8W resistors for LEDs... Perhaps 68 ohm for green, 100 ohm for red (maybe?)
 - 1x 0.1u capacitor (disc, with 2.54mm pin spacing)
 
 ### Programming
@@ -62,5 +57,6 @@ Notes for next rev:
 - For next time: the timer output is not hooked up to speaker
 - For next time: programming pin is hooked to speaker. When speaker is bypassed, this makes programming impossible
 - Speaker transistor may be redundant? Outputs claim 20mA, and you are not supposed to draw that much from CR2032...
-  Directly-driven piezo speaker sounds just fine from 3.3V
+- Directly-driven piezo speaker sounds just fine from 3.3V. However, we cannot program
+    (Model unknown, measured: D=14mm H=7mm Spacing=7.6mm C=13.6nF)
 - Can we move eyes be different? rectangular LED, or bigger, or smaller...
