@@ -49,9 +49,7 @@ Ordered from JLCPCB 2025-12-24
    - (had some coupons which paid for it, would be about $22.50 otherwise)
 
 Notes for next rev:
-- Put "catch-man" in large font on front side
-- Set "thing" outlines to be much thicker
-- Re-route front traces to not intersect silkscreen lines.. in general, move more stuff to the back, via's are neat
+- See "Changes" for Revision 2 below
 - Tested green LED + 68 ohm resistors.. looks good enough (on battery and 3.3v supply)
 - For next time: the timer output is not hooked up to speaker
 - Programming pin is hooked to speaker. When speaker is bypassed, this makes in-circuit programming impossible
@@ -60,4 +58,13 @@ Notes for next rev:
     - Piezo speaker model unknown, measured: D=14mm H=7mm Spacing=7.6mm C=13.6nF
     - Dynamic speaker (say 16 ohm) is 190mA, way too much for CR2032 anyway
 - Let's make eyes be different - rectangular LED, or bigger, or smaller...
-- Add mounting holes, in case we want backplate
+
+### Revision 1.1
+
+Changes:
+- (TODO) Put "catch-man" in large font on front side
+- Set "thing" outlines to be much thicker
+- Re-route front traces to not intersect silkscreen lines.. in general, move more stuff to the back, via's are neat
+- Removed transistor, added mute switch instead
+- Updated speaker spacing to 7.6mm
+- Added a single mounting hole in the very center
