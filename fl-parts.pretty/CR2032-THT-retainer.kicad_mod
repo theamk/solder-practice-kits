@@ -1,7 +1,7 @@
 (footprint "CR2032-THT-retainer"
-	(version 20240108)
+	(version 20241229)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(layer "F.Cu")
 	(descr "CR2032 retainer clip, THT (https://www.aliexpress.us/item/2255800037294992.html)")
 	(tags "CR2032 2032 Battery Holder")
@@ -16,26 +16,13 @@
 			)
 		)
 	)
-	(property "Value" ""
+	(property "Value" "Val**"
 		(at 0 -10.6 0)
 		(layer "F.Fab")
 		(uuid "3b4a0150-d223-4bbc-b741-3f1356b94870")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at 0 0 0)
-		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "b66c5a78-a2d7-4963-9e66-200511b2ed34")
-		(effects
-			(font
-				(size 1.27 1.27)
 				(thickness 0.15)
 			)
 		)
@@ -74,9 +61,9 @@
 			(width 0.2)
 			(type solid)
 		)
-		(fill solid)
-		(layer "B.Cu")
-		(uuid "07ca6c04-3085-47d2-834b-171c47370d42")
+		(fill yes)
+		(layer "B.Mask")
+		(uuid "4791bf44-78de-4e29-a38c-9638bbf970f7")
 	)
 	(fp_circle
 		(center 10.6 0)
@@ -85,9 +72,9 @@
 			(width 0.2)
 			(type solid)
 		)
-		(fill solid)
-		(layer "B.Cu")
-		(uuid "5a66151e-3ef0-4440-b2a0-d1dee0445342")
+		(fill yes)
+		(layer "B.Mask")
+		(uuid "1522c837-f65b-4e3a-888d-b8b600fcf87d")
 	)
 	(fp_line
 		(start -10.68 -4.75)
@@ -171,28 +158,6 @@
 		)
 		(layer "F.SilkS")
 		(uuid "4cb9a5c1-c215-49c6-88e2-e71db43e2f83")
-	)
-	(fp_circle
-		(center -10.6 0)
-		(end -8.6 0)
-		(stroke
-			(width 0.2)
-			(type solid)
-		)
-		(fill solid)
-		(layer "B.Mask")
-		(uuid "4791bf44-78de-4e29-a38c-9638bbf970f7")
-	)
-	(fp_circle
-		(center 10.6 0)
-		(end 12.6 0)
-		(stroke
-			(width 0.2)
-			(type solid)
-		)
-		(fill solid)
-		(layer "B.Mask")
-		(uuid "1522c837-f65b-4e3a-888d-b8b600fcf87d")
 	)
 	(fp_line
 		(start -14 -5)
@@ -537,7 +502,7 @@
 			(width 0.1)
 			(type solid)
 		)
-		(fill none)
+		(fill no)
 		(layer "F.Fab")
 		(uuid "c583fa24-042f-4f23-a5e3-5c80c5a82324")
 	)
@@ -548,7 +513,7 @@
 			(width 0.1)
 			(type solid)
 		)
-		(fill none)
+		(fill no)
 		(layer "F.Fab")
 		(uuid "4961e220-2dc9-4395-bbe6-176e7a63e2f3")
 	)
@@ -566,12 +531,12 @@
 	(pad "1" smd rect
 		(at -12.1 0)
 		(size 3 9.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "6874dd23-c2e9-47bb-9c4a-7388c04e2f6c")
 	)
 	(pad "1" thru_hole circle
 		(at -10.6 0)
-		(size 3 3)
+		(size 4 4)
 		(drill 1.85)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
@@ -579,7 +544,7 @@
 	)
 	(pad "1" thru_hole circle
 		(at 10.6 0)
-		(size 3 3)
+		(size 4 4)
 		(drill 1.85)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
@@ -588,13 +553,13 @@
 	(pad "1" smd rect
 		(at 12.1 0)
 		(size 3 9.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "429c4954-ef8c-4fdd-949d-14528dfd9b0f")
 	)
 	(pad "2" smd circle
 		(at 0 0)
 		(size 15 15)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "680a4a5b-7368-47ad-97da-6f35494074ac")
 	)
 	(zone
@@ -614,6 +579,10 @@
 			(pads allowed)
 			(copperpour allowed)
 			(footprints not_allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
 		)
 		(fill
 			(thermal_gap 0.5)
@@ -650,6 +619,7 @@
 			)
 		)
 	)
+	(embedded_fonts no)
 	(model "${KICAD8_3DMODEL_DIR}/Battery.3dshapes/BatteryHolder_Multicomp_BC-2001_1x2032.wrl"
 		(offset
 			(xyz 0 0 0)

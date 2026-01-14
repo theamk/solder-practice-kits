@@ -13,6 +13,7 @@ STC8G1K17A-36I-DIP8 would be even better (more FLASH for program), but it was mu
 - 12x 3mm/5mm LED (red/yellow/green recommended, no blue or white)
 - 1x "12x12mm" tactile button
 - 1x slide switch (SS12D00 or equivalent, 3 pins @ 2.5mm/2.54mm spacing)
+- 1x single-position DIP slide switch,7.62mm spacing
 - Piezo buzzer (passive, "1407", pin spacing 7.5mm or 7.6mm)
 - CR2032, "shell" holder (BS-2032A but not all listing say this, look for 20mm inter-pin distance)
 
@@ -62,7 +63,7 @@ Notes for next rev:
 ### Revision 1.1
 
 Changes:
-- (TODO) Put "catch-man" in large font on front side
+- Put "catch-man" in large font on front side (this required moving speaker down)
 - Set "thing" outlines to be much thicker
 - Re-route front traces to not intersect silkscreen lines.. in general, move more stuff to the back, via's are neat
 - Removed transistor, added mute switch instead
