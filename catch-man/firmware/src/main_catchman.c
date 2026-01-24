@@ -20,18 +20,34 @@ uint16_t count_move = 1;
 uint16_t count_cs_timer = 1;
 volatile uint8_t button_debounce = 0;
 
+__CODE const uint8_t victory_led[] = {
+  EYE_L, FIELD_TL, FIELD_TR, EYE_R, 0,
+  MOUTH_L, FIELD_M, MOUTH_R, 0, 0,
+  FIELD_BL, FIELD_BR, 0, 0, 0,
+  HOUSE_1, HOUSE_2, HOUSE_3, 0, 0
+};
+
 INTERRUPT(Timer0_Routine, EXTI_VectTimer0) {
   // Set LED (we can show only 1 at a time, so use fixed schedule)
   uint8_t led = 0;
-  switch (++led_phase) {
-  case 1: if (thing_sel) { led = (thing_sel == 2) ? EYE_R : EYE_L; }; break; // eye
-  case 2: if (house >= 1) { led = HOUSE_1; }; break;
-  case 3: if (house >= 2) { led = HOUSE_2; }; break;
-  case 4: if (house >= 3) { led = HOUSE_3; }; break;
-  default: // food
-    led_phase = 0;
-    led = food;
+
+  if (thing_sel >= 10) {
+    // Special "win condition" blink
+    if (++led_phase > 4) led_phase = 0;
+    led = victory_led[(thing_sel - 10) * 5 + led_phase];
+  } else {
+    // Normal operation
+    switch (++led_phase) {
+    case 1: if (thing_sel) { led = (thing_sel == 2) ? EYE_R : EYE_L; }; break; // eye
+    case 2: if (house >= 1) { led = HOUSE_1; }; break;
+    case 3: if (house >= 2) { led = HOUSE_2; }; break;
+    case 4: if (house >= 3) { led = HOUSE_3; }; break;
+    default: // food
+      led_phase = 0;
+      led = food;
+    }
   }
+
   set_led(led);
 
   // deboumce timer only counts if button is released
@@ -160,6 +176,37 @@ void main(void) {
           house = (house > 4) ? 0 : (house + 1);
         }
       }
+    } else if (level > 3) {
+      // game finished loop!
+      // Show flashing lights until power down
+      uint8_t sound_on = 0;
+      thing_sel = 10;
+
+      while (1) {
+        // Scroll special blink modes
+        if (need_move) {
+          need_move = 0;
+          thing_sel++;
+          if (thing_sel >= 14) { thing_sel = 10; }
+        }
+
+        // Play random sound every time button is pressed
+        if (button_pressed) {
+          button_pressed = 0;
+          sound_on = 1;
+          switch (random8() % 4) {
+          case 0: set_beeper(BEEPER_HZ_TO_DIV(200)); break;
+          case 1: set_beeper(BEEPER_HZ_TO_DIV(440)); break;
+          case 2: set_beeper(BEEPER_HZ_TO_DIV(880)); break;
+          default: set_beeper(BEEPER_HZ_TO_DIV(1200)); break;
+          }
+        } else if (sound_on && !button_debounce) {
+          // button released + debounce interval passed
+          sound_on = 0;
+          set_beeper(0);
+        }
+      }
+
     } else {
       // next lever start loop, after level-up
       uint8_t house_skip = 0;
@@ -251,7 +298,7 @@ void main(void) {
     BEEP(1400, 200);  SLEEP(100);
     BEEP(1600, 200);
 
-    if (level < 3) { level++; };
+    level++;
     button_pressed = 0;
     // loop again and restart
   }
